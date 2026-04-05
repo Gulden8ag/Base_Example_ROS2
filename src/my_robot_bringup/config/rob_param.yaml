@@ -1,0 +1,13 @@
+r2d2:
+  ros__parameters:
+    time_period: 2.0
+
+number_publisher:
+  ros__parameters:
+    number: 8
+    timer_period: 2.0
+
+Spawner:
+  ros__parameters:
+    spawn_frequency: 2.0
+

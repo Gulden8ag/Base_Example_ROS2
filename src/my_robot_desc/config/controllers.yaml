@@ -1,0 +1,27 @@
+controller_manager:
+  ros__parameters:
+    use_sim_time: true
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+arm_controller:
+  ros__parameters:
+    joints:
+      - base_link_link_0_joint
+      - link_0_link_1_joint
+      - link_1_link_2_joint
+      - link_2_link_3_joint
+      - link_3_link_4_joint
+      - link_4_link_5_joint
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity

@@ -1,0 +1,561 @@
+<?xml version="1.0"?>
+
+
+
+<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!--Gazebo Plugin-->
+    <gazebo>
+    <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find my_robot_desc)/config/controllers.yaml</parameters>
+    </plugin>
+    </gazebo>
+    <!-- Include materials -->
+    <xacro:include filename="materials.xacro"/>
+    <xacro:include filename="inertias.xacro"/>
+
+    <!-- constants -->
+    <xacro:property name="d0" value="0.1625"/>
+    <xacro:property name="a1" value="-0.425"/>
+    <xacro:property name="a2" value="-0.3922"/>
+    <xacro:property name="d3" value="0.1333"/>
+    <xacro:property name="d4" value="0.0997"/>
+    <xacro:property name="d5" value="0.0996"/>
+    <xacro:property name="diameter" value="0.132"/>
+
+    <!-- Positive geometry lengths -->
+    <xacro:property name="a1_len" value="0.425"/>
+    <xacro:property name="a2_len" value="0.3922"/>
+
+    <!-- Robot Masses -->
+    <xacro:property name="shoulder_mass" value="3.761"/>
+    <xacro:property name="upper_arm_mass" value="8.058"/>
+    <xacro:property name="forearm_mass" value="2.846"/>
+    <xacro:property name="wrist_1_mass" value="1.37"/>
+    <xacro:property name="wrist_2_mass" value="1.3"/>
+    <xacro:property name="wrist_3_mass" value="0.365"/>
+
+    <!-- Inertias -->
+    <!-- Shoulder -->
+    <xacro:property name="shoulder_com_x" value="0.0"/>
+    <xacro:property name="shoulder_com_y" value="-0.00193"/>
+    <xacro:property name="shoulder_com_z" value="-0.02561"/>
+    <xacro:property name="shoulder_roll"  value="${pi/2}"/>
+    <xacro:property name="shoulder_pitch" value="0"/>
+    <xacro:property name="shoulder_yaw"   value="0"/>
+    <xacro:property name="shoulder_ixx" value="0.00700210"/>
+    <xacro:property name="shoulder_ixy" value="0.00000073"/>
+    <xacro:property name="shoulder_ixz" value="-0.00001053"/>
+    <xacro:property name="shoulder_iyy" value="0.00648091"/>
+    <xacro:property name="shoulder_iyz" value="0.00049994"/>
+    <xacro:property name="shoulder_izz" value="0.00657286"/>
+
+    <!-- Upper arm -->
+    <xacro:property name="upper_arm_com_x" value="-0.2125"/>
+    <xacro:property name="upper_arm_com_y" value="0.0"/>
+    <xacro:property name="upper_arm_com_z" value="0.11336"/>
+    <xacro:property name="upper_arm_roll"  value="0"/>
+    <xacro:property name="upper_arm_pitch" value="0"/>
+    <xacro:property name="upper_arm_yaw"   value="0"/>
+    <xacro:property name="upper_arm_ixx" value="0.01505885"/>
+    <xacro:property name="upper_arm_ixy" value="-0.00005400"/>
+    <xacro:property name="upper_arm_ixz" value="0.00000563"/>
+    <xacro:property name="upper_arm_iyy" value="0.33388086"/>
+    <xacro:property name="upper_arm_iyz" value="-0.00000181"/>
+    <xacro:property name="upper_arm_izz" value="0.33247207"/>
+
+    <!-- Forearm -->
+    <xacro:property name="forearm_com_x" value="-0.2422"/>
+    <xacro:property name="forearm_com_y" value="0.0"/>
+    <xacro:property name="forearm_com_z" value="0.0265"/>
+    <xacro:property name="forearm_roll"  value="0"/>
+    <xacro:property name="forearm_pitch" value="0"/>
+    <xacro:property name="forearm_yaw"   value="0"/>
+    <xacro:property name="forearm_ixx" value="0.00399632"/>
+    <xacro:property name="forearm_ixy" value="-0.00001365"/>
+    <xacro:property name="forearm_ixz" value="0.00137272"/>
+    <xacro:property name="forearm_iyy" value="0.07879254"/>
+    <xacro:property name="forearm_iyz" value="-0.00000660"/>
+    <xacro:property name="forearm_izz" value="0.07848510"/>
+
+    <!-- Wrist 1 -->
+    <xacro:property name="wrist_1_com_x" value="0.0"/>
+    <xacro:property name="wrist_1_com_y" value="-0.01634"/>
+    <xacro:property name="wrist_1_com_z" value="-0.0018"/>
+    <xacro:property name="wrist_1_roll"  value="${pi/2}"/>
+    <xacro:property name="wrist_1_pitch" value="0"/>
+    <xacro:property name="wrist_1_yaw"   value="0"/>
+    <xacro:property name="wrist_1_ixx" value="0.00165491"/>
+    <xacro:property name="wrist_1_ixy" value="-0.00000282"/>
+    <xacro:property name="wrist_1_ixz" value="-0.00000438"/>
+    <xacro:property name="wrist_1_iyy" value="0.00135962"/>
+    <xacro:property name="wrist_1_iyz" value="0.00010157"/>
+    <xacro:property name="wrist_1_izz" value="0.00126279"/>
+
+    <!-- Wrist 2 -->
+    <xacro:property name="wrist_2_com_x" value="0.0"/>
+    <xacro:property name="wrist_2_com_y" value="0.01634"/>
+    <xacro:property name="wrist_2_com_z" value="-0.0018"/>
+    <xacro:property name="wrist_2_roll"  value="${-pi/2}"/>
+    <xacro:property name="wrist_2_pitch" value="0"/>
+    <xacro:property name="wrist_2_yaw"   value="0"/>
+    <xacro:property name="wrist_2_ixx" value="0.00135617"/>
+    <xacro:property name="wrist_2_ixy" value="-0.00000274"/>
+    <xacro:property name="wrist_2_ixz" value="0.00000444"/>
+    <xacro:property name="wrist_2_iyy" value="0.00127827"/>
+    <xacro:property name="wrist_2_iyz" value="-0.00005048"/>
+    <xacro:property name="wrist_2_izz" value="0.00096614"/>
+
+    <!-- Wrist 3 -->
+    <xacro:property name="wrist_3_com_x" value="0.0"/>
+    <xacro:property name="wrist_3_com_y" value="0.0"/>
+    <xacro:property name="wrist_3_com_z" value="-0.001159"/>
+    <xacro:property name="wrist_3_roll"  value="0"/>
+    <xacro:property name="wrist_3_pitch" value="0"/>
+    <xacro:property name="wrist_3_yaw"   value="0"/>
+    <xacro:property name="wrist_3_ixx" value="0.00018694"/>
+    <xacro:property name="wrist_3_ixy" value="0.00000006"/>
+    <xacro:property name="wrist_3_ixz" value="-0.00000017"/>
+    <xacro:property name="wrist_3_iyy" value="0.00018908"/>
+    <xacro:property name="wrist_3_iyz" value="-0.00000092"/>
+    <xacro:property name="wrist_3_izz" value="0.00025756"/>
+
+    <!-- Links -->
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0.025" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.149" length="0.05"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.025" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.149" length="0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.025" rpy="0 0 0"/>
+            <mass value="4.0"/>
+            <inertia ixx="0.02303433" ixy="0.0" ixz="0.0"
+                     iyy="0.02303433" iyz="0.0" izz="0.044402"/>
+        </inertial>
+    </link>
+
+    <link name="link_0">
+        <visual>
+            <origin xyz="0 0 ${d0/2 + 0.025}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d0}"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${d0/2 + 0.025}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d0}"/>
+            </geometry>
+        </collision>
+        <xacro:robot_inertial
+            mass="${shoulder_mass}"
+            com_x="${shoulder_com_x}"
+            com_y="${shoulder_com_y}"
+            com_z="${shoulder_com_z}"
+            roll="${shoulder_roll}"
+            pitch="${shoulder_pitch}"
+            yaw="${shoulder_yaw}"
+            ixx="${shoulder_ixx}"
+            ixy="${shoulder_ixy}"
+            ixz="${shoulder_ixz}"
+            iyy="${shoulder_iyy}"
+            iyz="${shoulder_iyz}"
+            izz="${shoulder_izz}"/>
+    </link>
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0 0 ${diameter}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <visual>
+            <origin xyz="0 ${-a1/2} 0.133" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${a1_len}"/>
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="0 ${-a1} ${diameter}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${diameter}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="0 ${-a1/2} 0.133" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${a1_len}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="0 ${-a1} ${diameter}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </collision>
+
+        <xacro:robot_inertial
+            mass="${upper_arm_mass}"
+            com_x="${upper_arm_com_x}"
+            com_y="${upper_arm_com_y}"
+            com_z="${upper_arm_com_z}"
+            roll="${upper_arm_roll}"
+            pitch="${upper_arm_pitch}"
+            yaw="${upper_arm_yaw}"
+            ixx="${upper_arm_ixx}"
+            ixy="${upper_arm_ixy}"
+            ixz="${upper_arm_ixz}"
+            iyy="${upper_arm_iyy}"
+            iyz="${upper_arm_iyz}"
+            izz="${upper_arm_izz}"/>
+    </link>
+
+    <link name="link_1_j2_rot">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <link name="link_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <visual>
+            <origin xyz="${a2/2} 0 0" rpy="0 ${pi/2} 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${a2_len}"/>
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="${a2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="${a2/2} 0 0" rpy="0 ${pi/2} 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${a2_len}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="${a2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </collision>
+
+        <xacro:robot_inertial
+            mass="${forearm_mass}"
+            com_x="${forearm_com_x}"
+            com_y="${forearm_com_y}"
+            com_z="${forearm_com_z}"
+            roll="${forearm_roll}"
+            pitch="${forearm_pitch}"
+            yaw="${forearm_yaw}"
+            ixx="${forearm_ixx}"
+            ixy="${forearm_ixy}"
+            ixz="${forearm_ixz}"
+            iyy="${forearm_iyy}"
+            iyz="${forearm_iyz}"
+            izz="${forearm_izz}"/>
+    </link>
+
+    <link name="link_3">
+        <visual>
+            <origin xyz="0 0 ${diameter/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${diameter/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${diameter}"/>
+            </geometry>
+        </collision>
+        <xacro:robot_inertial
+            mass="${wrist_1_mass}"
+            com_x="${wrist_1_com_x}"
+            com_y="${wrist_1_com_y}"
+            com_z="${wrist_1_com_z}"
+            roll="${wrist_1_roll}"
+            pitch="${wrist_1_pitch}"
+            yaw="${wrist_1_yaw}"
+            ixx="${wrist_1_ixx}"
+            ixy="${wrist_1_ixy}"
+            ixz="${wrist_1_ixz}"
+            iyy="${wrist_1_iyy}"
+            iyz="${wrist_1_iyz}"
+            izz="${wrist_1_izz}"/>
+    </link>
+
+    <link name="link_3_j4_rot">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <link name="link_4">
+        <visual>
+            <origin xyz="0 0 ${d4/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d4}"/>
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${diameter/2}"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${d4/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d4}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${diameter/2}"/>
+            </geometry>
+        </collision>
+
+        <xacro:robot_inertial
+            mass="${wrist_2_mass}"
+            com_x="${wrist_2_com_x}"
+            com_y="${wrist_2_com_y}"
+            com_z="${wrist_2_com_z}"
+            roll="${wrist_2_roll}"
+            pitch="${wrist_2_pitch}"
+            yaw="${wrist_2_yaw}"
+            ixx="${wrist_2_ixx}"
+            ixy="${wrist_2_ixy}"
+            ixz="${wrist_2_ixz}"
+            iyy="${wrist_2_iyy}"
+            iyz="${wrist_2_iyz}"
+            izz="${wrist_2_izz}"/>
+    </link>
+
+    <link name="link_5">
+        <visual>
+            <origin xyz="0 0 ${d5/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d5}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${diameter/2}"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${d5/2}" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${diameter/2}" length="${d5}"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${diameter/2}"/>
+            </geometry>
+        </collision>
+
+        <xacro:robot_inertial
+            mass="${wrist_3_mass}"
+            com_x="${wrist_3_com_x}"
+            com_y="${wrist_3_com_y}"
+            com_z="${wrist_3_com_z}"
+            roll="${wrist_3_roll}"
+            pitch="${wrist_3_pitch}"
+            yaw="${wrist_3_yaw}"
+            ixx="${wrist_3_ixx}"
+            ixy="${wrist_3_ixy}"
+            ixz="${wrist_3_ixz}"
+            iyy="${wrist_3_iyy}"
+            iyz="${wrist_3_iyz}"
+            izz="${wrist_3_izz}"/>
+    </link>
+
+    <link name="ee_link">
+        <visual>
+            <origin xyz="0 0 0.005" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.005" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.005" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <!-- Joints -->
+
+    <joint name="base_link_link_0_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="link_0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_0_link_1_joint" type="revolute">
+        <parent link="link_0"/>
+        <child link="link_1"/>
+        <origin xyz="0 0 ${d0}" rpy="${pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_1_link_1_j2_rot_joint" type="fixed">
+        <parent link="link_1"/>
+        <child link="link_1_j2_rot"/>
+        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+    </joint>
+
+    <joint name="link_1_link_2_joint" type="revolute">
+        <parent link="link_1_j2_rot"/>
+        <child link="link_2"/>
+        <origin xyz="${a1} 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_2_link_3_joint" type="revolute">
+        <parent link="link_2"/>
+        <child link="link_3"/>
+        <origin xyz="${a2} 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_3_link_3_j4_rot_joint" type="fixed">
+        <parent link="link_3"/>
+        <child link="link_3_j4_rot"/>
+        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+    </joint>
+
+    <joint name="link_3_link_4_joint" type="revolute">
+        <parent link="link_3_j4_rot"/>
+        <child link="link_4"/>
+        <origin xyz="0 0 ${d3}" rpy="${pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_4_link_5_joint" type="revolute">
+        <parent link="link_4"/>
+        <child link="link_5"/>
+        <origin xyz="0 0 ${d4}" rpy="${-pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="150" velocity="1.5"/>
+    </joint>
+
+    <joint name="link_5_ee_link_joint" type="fixed">
+        <parent link="link_5"/>
+        <child link="ee_link"/>
+        <origin xyz="0 0 ${d5}" rpy="0 0 0"/>
+    </joint>
+
+    <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <joint name="base_link_link_0_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+
+    <joint name="link_0_link_1_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+
+    <joint name="link_1_link_2_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+
+    <joint name="link_2_link_3_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+
+    <joint name="link_3_link_4_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+
+    <joint name="link_4_link_5_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+    </joint>
+    </ros2_control>
+
+</robot>
